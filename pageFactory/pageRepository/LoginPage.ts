@@ -1,39 +1,37 @@
-import { Page, expect } from "@playwright/test"
-import { WebActions } from "@lib/WebActions"
+import { Page } from "@playwright/test"
 import { LoginPageObjects } from "@objects/LoginPageObjects"
+import { BasePage } from "./BasePage"
 
-let webActions: WebActions
 let loginPageObjects: LoginPageObjects
 
-export class LoginPage {
-    readonly page: Page
+export class LoginPage extends BasePage {
+
     constructor(page: Page) {
-        this.page = page
-        webActions = new WebActions(this.page)
+        super(page)
+
         loginPageObjects = new LoginPageObjects()
     }
 
-    async navigateToUrl(): Promise<void> {
-        await webActions.delay(2000)
-        await webActions.navigateToURL("https://docs.google.com/spreadsheets")
-    }
-
     async enterEmail(email: string):Promise<void> {
-        await webActions.enterElementText(loginPageObjects.EmailInput, email)
+        await this.webActions.enterElementText(loginPageObjects.EmailInput, email)
     }
 
-    async clickNextButton():Promise<void> {
-        await webActions.clickElement(loginPageObjects.NextBtn)
+    async clickNextButtonEmail():Promise<void> {
+        await this.webActions.clickElement(loginPageObjects.NextBtnEmail)
     }
 
     async enterPassword(password: string):Promise<void> {
-        await webActions.enterElementText(loginPageObjects.PasswordInput, password)
+        await this.webActions.enterElementText(loginPageObjects.PasswordInput, password)
+    }
+
+    async clickNextButtonPassword():Promise<void> {
+        await this.webActions.clickElement(loginPageObjects.NextBtnPassword)
     }
 
     async loginWithValidCredentials(email:string, pass:string) :Promise<any>{
         await this.enterEmail(email);
-        await this.clickNextButton();
+        await this.clickNextButtonEmail();
         await this.enterPassword(pass);
-        await this.clickNextButton();
+        await this.clickNextButtonPassword();
     }
 }
