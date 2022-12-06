@@ -40,20 +40,20 @@ export class SpreadSheetsPage extends BasePage {
   }
 
   async sendMergedEmail() {
-    const firstFrame = await this.page.frameLocator("//iframe[contains(@src,'M2AdHvdLTmzKIrz5sjtXqguVJ5jnXUK_T')]");
-    const secondFrame = await firstFrame.frameLocator("#sandboxFrame")
-    const mainFrame = await secondFrame.frameLocator("#userHtmlFrame")
+    const firstFrame = this.page.frameLocator("//iframe[contains(@src,'M2AdHvdLTmzKIrz5sjtXqguVJ5jnXUK_T')]");
+    const secondFrame = firstFrame.frameLocator("#sandboxFrame")
+    const mainFrame = secondFrame.frameLocator("#userHtmlFrame")
 
     await mainFrame.locator(spreadSheetsPageObject.SendEmail).click();
   }
 
   async verifyEmailSentSuccessfully() {
 
-    const firstFrame = await this.page.frameLocator("//iframe[contains(@src,'M2AdHvdLTmzKIrz5sjtXqguVJ5jnXUK_T')]");
-    const secondFrame = await firstFrame.frameLocator("#sandboxFrame")
-    const mainFrame = await secondFrame.frameLocator("#userHtmlFrame")
+    const firstFrame = this.page.frameLocator("//iframe[contains(@src,'M2AdHvdLTmzKIrz5sjtXqguVJ5jnXUK_T')]");
+    const secondFrame = firstFrame.frameLocator("#sandboxFrame")
+    const mainFrame = secondFrame.frameLocator("#userHtmlFrame")
 
-    let messageLocator = await mainFrame.locator(spreadSheetsPageObject.SuccessMessage)
+    let messageLocator = mainFrame.locator(spreadSheetsPageObject.SuccessMessage)
     let actualMessage = await messageLocator.textContent()
 
     expect(actualMessage, gSheetData.successMessage)
