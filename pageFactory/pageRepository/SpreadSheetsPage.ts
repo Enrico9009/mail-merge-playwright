@@ -54,18 +54,32 @@ export class SpreadSheetsPage extends BasePage {
     const mainFrame = secondFrame.frameLocator("#userHtmlFrame")
 
     let messageLocator = mainFrame.locator(spreadSheetsPageObject.SuccessMessage)
-    let actualMessage = await messageLocator.textContent()
 
-    expect(actualMessage, gSheetData.successMessage)
+    expect(messageLocator).toHaveText(gSheetData.successMessage, {timeout: 20000})
   }
 
   async verifyExcelSheetUpdated() {
     let data = await gSheetUtil.readExcel();
-    let mergeStatus = data[0][8];
+    let mergeStatus = data[1][8];
+
+    let retryTime = 0;
+    while(mergeStatus == undefined) {
+      console.log("Got undefined, retrying getting data..")
+      data = await gSheetUtil.readExcel();
+      mergeStatus = data[1][8];
+
+      retryTime++;
+      console.log("Retried: " + retryTime)
+
+      if(retryTime >= 1000) {
+        console.log("Exceeded retries limit: " + retryTime)
+        break;
+      }
+    }
 
     console.log("mergeStatus: " + mergeStatus)
 
-    expect(mergeStatus, "EMAIL_SENT");
+    expect(mergeStatus).toBe("EMAIL_SENT");
   }
 
   async resetMergeStatus() {
