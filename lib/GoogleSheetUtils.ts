@@ -6,10 +6,12 @@ import { google } from 'googleapis';
 
 const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), '/test-data/credentials.json');
+const CREDENTIALS_PATH = path.join(
+  process.cwd(),
+  '/test-data/credentials.json'
+);
 
 export class GoogleSheetUtils {
-
   async loadSavedCredentialsIfExist() {
     try {
       const content = await fs.readFile(TOKEN_PATH);
@@ -64,5 +66,22 @@ export class GoogleSheetUtils {
     }
 
     return rows;
+  }
+
+  async writeExcel() {
+    let auth = await this.authorize();
+    const sheets = google.sheets({ version: 'v4', auth });
+
+    const values = [['']];
+
+    await sheets.spreadsheets.values.update({
+      spreadsheetId: '1lmT9zWb7zwYP-C2GqTIgOAgNLLhw1oXcBpI6nj4jsN8',
+      range: 'Sheet1!I2',
+      valueInputOption: 'RAW',
+      requestBody: {
+        range: 'Sheet1!I2',
+        values: [['']],
+      },
+    });
   }
 }

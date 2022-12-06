@@ -68,4 +68,8 @@ export class SpreadSheetsPage extends BasePage {
     expect(mergeStatus, "EMAIL_SENT");
 
   }
+
+  async resetMergeStatus() {
+    await gSheetUtil.writeExcel();
+  }
 }

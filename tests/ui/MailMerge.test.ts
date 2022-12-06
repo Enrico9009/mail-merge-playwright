@@ -3,7 +3,8 @@ import LoginData from '@data/loginData.json';
 import GSheetData from '@data/gSheetData.json';
 
 test.describe(`Mail Merge Test`, async () => {
-  test.beforeEach(async ({ loginPage }) => {
+  test.beforeEach(async ({ loginPage, spreadSheetsPage }) => {
+    await spreadSheetsPage.resetMergeStatus();
     await loginPage.navigateToUrl();
   });
 
