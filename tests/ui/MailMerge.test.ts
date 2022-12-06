@@ -31,6 +31,7 @@ test.describe(`Mail Merge Test`, async () => {
     await test.step(`Send and verify mail is sent successfully`, async () => {
       await spreadSheetsPage.sendMergedEmail();
       await spreadSheetsPage.verifyEmailSentSuccessfully();
+      await spreadSheetsPage.verifyExcelSheetUpdated();
     });
   });
 });

@@ -2,14 +2,17 @@ import { SpreadSheetsPageObjects } from '@objects/SpreadSheetsPageObjects';
 import { expect, Page } from '@playwright/test';
 import { BasePage } from './BasePage';
 import gSheetData from '@data/gSheetData.json'
+import { GoogleSheetUtils } from '@lib/GoogleSheetUtils';
 
 let spreadSheetsPageObject: SpreadSheetsPageObjects;
+let gSheetUtil: GoogleSheetUtils
 
 export class SpreadSheetsPage extends BasePage {
   constructor(page: Page) {
     super(page);
 
     spreadSheetsPageObject = new SpreadSheetsPageObjects();
+    gSheetUtil = new GoogleSheetUtils();
   }
 
   async verifySpreadSheetPageIsDisplayed(): Promise<void> {
@@ -57,6 +60,12 @@ export class SpreadSheetsPage extends BasePage {
   }
 
   async verifyExcelSheetUpdated() {
-    
+    let data = await gSheetUtil.readExcel();
+    let mergeStatus = data[0][8];
+
+    console.log("mergeStatus: " + mergeStatus)
+
+    expect(mergeStatus, "EMAIL_SENT");
+
   }
 }
