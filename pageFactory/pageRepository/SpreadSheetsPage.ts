@@ -66,7 +66,6 @@ export class SpreadSheetsPage extends BasePage {
     console.log("mergeStatus: " + mergeStatus)
 
     expect(mergeStatus, "EMAIL_SENT");
-
   }
 
   async resetMergeStatus() {
