@@ -1,12 +1,18 @@
-import {test as baseTest} from "@playwright/test"
-import {LoginPage} from "@pages/LoginPage"
+import { test as baseTest } from '@playwright/test';
+import { LoginPage } from '@pages/LoginPage';
+import { SpreadSheetsPage } from '@pages/SpreadSheetsPage';
 
 const test = baseTest.extend<{
-    loginPage: LoginPage
+  loginPage: LoginPage;
+  spreadSheetsPage: SpreadSheetsPage;
 }>({
-    loginPage: async ({page}, use) => {
-        await use(new LoginPage(page))
-    }
-})
+  loginPage: async ({ page }, use) => {
+    await use(new LoginPage(page));
+  },
 
-export default test
+  spreadSheetsPage: async ({ page }, use) => {
+    await use(new SpreadSheetsPage(page));
+  },
+});
+
+export default test;
